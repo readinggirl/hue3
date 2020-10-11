@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hausuebung3;
+package hausuebung3.bsp1;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,11 +25,13 @@ import java.util.stream.Collectors;
  */
 public class Main {
 
+    List<Weapon> list = new LinkedList<>();
+
     public static void main(String[] args) throws InterruptedException, IOException {
-        List<Weapon> list = new LinkedList<>();
+
         Main main = new Main();
 
-        list = Files.lines(new File("weapons.csv").toPath())
+        main.list = Files.lines(new File("weapons.csv").toPath())
                 .skip(1)
                 .map(s -> s.split(";"))
                 .map(s -> new Weapon(
@@ -45,24 +47,21 @@ public class Main {
 
         Printable p = w -> System.out.println("name=" + w.getName() + ", combatType=" + w.getCombatType() + ", damageType=" + w.getDamageType() + ", damage=" + w.getDamage() + ", speed=" + w.getSpeed() + ", minStrength=" + w.getMinStrength() + ", value=" + w.getValue());
 
-        main.sort(list);
+        main.sort(main.list);
 
-        for (int i = 0; i < list.size(); i++) {
-            p.print(list.get(i));
+        for (int i = 0; i < main.list.size(); i++) {
+            p.print(main.list.get(i));
         }
 
-        main.sort2(list);
+        main.sort2(main.list);
         System.out.println("");
         System.out.println("");
-        for (int i = 0; i < list.size(); i++) {
-            p.print(list.get(i));
+        for (int i = 0; i < main.list.size(); i++) {
+            p.print(main.list.get(i));
         }
 
-        Printable pi = w -> System.out.printf("'%50'" + "name=" + w.getName() + ", combatType=" + w.getCombatType() + ", damageType=" + w.getDamageType() + ", damage=" + w.getDamage() + ", speed=" + w.getSpeed() + ", minStrength=" + w.getMinStrength() + ", value=" + w.getValue());
         System.out.println("");
-        for (int i = 0; i < list.size(); i++) {
-            pi.print(list.get(i));
-        }
+        main.printListAsTable();
     }
 
     public void sort(List<Weapon> liste) {
@@ -82,4 +81,23 @@ public class Main {
             return erg;
         });
     }
+
+    public void printListAsTable() {
+        System.out.println("-----------------------------------------------------------------");
+
+        Printable tablePrint = (w) -> {
+            System.out.printf("%-20s", " | " + w.getName());
+            System.out.printf("%-9s", " | " + w.getCombatType());
+            System.out.printf("%-11s ", " | " + w.getDamageType());
+            System.out.printf("%-6s", " | " + w.getDamage());
+            System.out.printf("%-3s", " | " + w.getSpeed());
+            System.out.printf("%-6s", " | " + w.getMinStrength());
+            System.out.printf("%-7s %n", " | " + w.getValue());
+            System.out.println("+---------------------------------------------------------------+");
+        };
+        list.forEach(w -> tablePrint.print(w));
+        System.out.println("-----------------------------------------------------------------");
+
+    }
+
 }

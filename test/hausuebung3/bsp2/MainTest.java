@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hausuebung3;
+package hausuebung3.bsp2;
 
+import hausuebung3.bsp1.Main;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
